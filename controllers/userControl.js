@@ -1,9 +1,9 @@
 const Users = require('../models/userModel')
 const bcrybt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const SendmailTransport = require('nodemailer/lib/sendmail-transport')
+const sendMail = require('./sendMail')
 
-const { CLIENT_URL } = process.env
+const {CLIENT_URL} = process.env
 
 const userControl = {
     register: async (req, res) => {
@@ -18,7 +18,7 @@ const userControl = {
             const user = await Users.findOne({ email })
             if (user) return res.status(400).json({ msg: "This email already exists" })
 
-            if (password.length > 6)
+            if (password.length < 6)
                 return res.status(400).json({ msg: "Passwors must be at least 6 characters" })
 
             //Password field -- invisible password
@@ -30,8 +30,8 @@ const userControl = {
 
             const activation_token = createActivationToken(newUser)
 
-            const url = '${CLIENT_URL}/user/activate/${activation_token}'
-            SendmailTransport(email, url)
+            const url = `${CLIENT_URL}/user/activate/${activation_token}`
+            sendMail(email, url, "Verify your email address")
 
 
 
