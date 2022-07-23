@@ -39,8 +39,25 @@ const userControl = {
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }
+    },
+    activateEmail: async (req, res) => {
+        try{
+            const {activation_token} = req.body
+            const user = jwt.verify(activation_token, process.env.ACCESS_TOKEN_SECRET)
+
+            console.log(user)
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
     }
 }
+
+
+
+
+
+
+
 
 function validateEmail(email) {
     const re = /\S+@\S+\.\S+/;
