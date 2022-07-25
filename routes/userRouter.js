@@ -12,6 +12,8 @@ router.post('/login', userControl.login)
 router.post('/refresh_token', userControl.getAccessToken)
 //check email and re-send passowrd
 router.post('/forgot', userControl.forgotPassword)
-
+//reset the password
 router.post('/reset',auth, userControl.resetPassword)
+
+router.get('/infor',auth, userControl.getUserInfor)
 module.exports = router

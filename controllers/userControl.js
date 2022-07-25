@@ -114,7 +114,7 @@ const userControl = {
             return res.status(500).json({msg: err.message})
         }
     },
-    resetPassword: async (req, res) =>{
+    resetPassword: async (req, res) => {
         try {
             const {password} = req.body
             console.log(password)
@@ -125,6 +125,14 @@ const userControl = {
             })
             
             res.json({msg: "Password successfully changed!"})
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    getUserInfor: async (req, res) => {
+        try {
+            const users = await Users.findById(req.user.id).select('-password')
+            res.json(users)
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
